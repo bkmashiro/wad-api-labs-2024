@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
-import tasksRouter from './api/tasks';
-import usersRouter from './api/users';
+import tasksRouter from '../movies-api/api/tasks';
+import usersRouter from '../movies-api/api/users';
 import './db';
 
 dotenv.config();

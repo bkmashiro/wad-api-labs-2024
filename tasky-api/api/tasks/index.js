@@ -13,7 +13,7 @@ router.get('/:id', (req, res) => {
   const { id } = req.params
   const task = tasksData.tasks.find(task => task.id === id);
   if (!task) {
-      return res.status(404).json({ status: 404, message: 'Task not found' });
+    return res.status(404).json({ status: 404, message: 'Task not found' });
   }
   return res.status(200).json(task);
 });
@@ -22,12 +22,14 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   const { title, description, deadline, priority, done } = req.body;
   const newTask = {
-      id: uuidv4(),
-      title,
-      description,
-      deadline,
-      priority,
-      done
+    id: uuidv4(),
+    title,
+    description,
+    deadline,
+    priority,
+    done,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   };
   tasksData.tasks.push(newTask);
   res.status(201).json(newTask);
@@ -37,11 +39,11 @@ router.post('/', (req, res) => {
 //Update an existing task
 router.put('/:id', (req, res) => {
   const { id } = req.params;
-  const taskIndex = tasksData.tasks.findIndex(task => task.id === id); 
+  const taskIndex = tasksData.tasks.findIndex(task => task.id === id);
   if (taskIndex === -1) {
-      return res.status(404).json({ status: 404, message: 'Task not found' });
+    return res.status(404).json({ status: 404, message: 'Task not found' });
   }
-  const updatedTask = { ...tasksData.tasks[taskIndex], ...req.body, id:id };
+  const updatedTask = { ...tasksData.tasks[taskIndex], ...req.body, id: id, updatedAt: new Date().toISOString() };
   tasksData.tasks[taskIndex] = updatedTask;
   res.json(updatedTask);
 });
@@ -50,8 +52,8 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
   const taskIndex = tasksData.tasks.findIndex(task => task.id === id);
-  
-  if (taskIndex === -1) return res.status(404).json({status:404,message:'Task not found'});
+
+  if (taskIndex === -1) return res.status(404).json({ status: 404, message: 'Task not found' });
   tasksData.tasks.splice(taskIndex, 1);
   res.status(204).send();
   tasksData.total_results--;

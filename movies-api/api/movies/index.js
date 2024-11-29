@@ -44,4 +44,10 @@ router.get('/tmdb/upcoming', asyncHandler(async (req, res) => {
   res.status(200).json(upcomingMovies);
 }));
 
+// get genres
+router.get('/tmdb/genres', asyncHandler(async (req, res) => {
+  const genres = await movieModel.distinct("genres", {});
+  res.status(200).json(genres);
+}));
+
 export default router;
